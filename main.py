@@ -11,6 +11,8 @@ from linebot.models import MessageEvent, TextMessage, TextSendMessage
 
 app = Flask(__name__)
 
+switch = 1
+
 load_dotenv()
 CHANNEL_ACCESS_TOKEN = os.environ["CHANNEL_ACCESS_TOKEN"]
 CHANNEL_SECRET = os.environ["CHANNEL_SECRET"]
@@ -42,8 +44,32 @@ def callback():
 def handle_message(event):
     line_bot_api.reply_message(
         event.reply_token,
-        TextSendMessage(text=event.message.text))
+        TextSendMessage(text="元画像をアップしてね"))
 
+@handler.add(MessageEvent, message=ImageMessage)
+def handle_image_message(event):
+    message_content = line_bot_api.get_message_content(event.message.id)
+    if switch ==1:
+        switch = -1*switch
+        with open("static/content.jpg", "wb") as f:
+            f.write(message_content.content)
+        
+        line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(text="スタイル画像をアップしてね")
+            )
+    elif switch == -1:
+        switch = -1*switch
+        with open("static/style.jpg", "wb") as f:
+            f.write(message_content.content)
+        
+        content_img = "./static/content.jpg"
+        style_img = "./static/style.jpg"
+
+        line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(text=content_img+" + "+style_img)
+            )
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=os.environ["PORT"])
