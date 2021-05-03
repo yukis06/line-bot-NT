@@ -49,28 +49,28 @@ def handle_message(event):
 @handler.add(MessageEvent, message=ImageMessage)
 def handle_image_message(event):
     message_content = line_bot_api.get_message_content(event.message.id)
-    if os.path.exists("./content.jpg"):
+    if os.path.exists("static/content.jpg"):
         #img = Image.open(message_content.content)
         #img.save("./static/style.jpg")
-        with open("./style.jpg", "wb") as f:
+        with open("static/style.jpg", "wb") as f:
             f.write(message_content.content)
         """
         transfer process
         """
-        out_url = "content.jpg"
+        out_url = "static/content.jpg"
         
-        #os.remove("./content.jpg")
-        os.remove("./style.jpg")
+        #os.remove("static/content.jpg")
+        os.remove("static/style.jpg")
 
         line_bot_api.reply_message(
             event.reply_token,
-            ImageSendMessage("https://genius-guy-bot.herokuapp.com/"+out_url, "https://genius-guy-bot.herokuapp.com/"+out_url)
+            ImageSendMessage("https://genius-guy-bot.herokuapp.com/{out_url}", "https://genius-guy-bot.herokuapp.com/{out_url}")
             )
 
     else:
         #img = Image.open(message_content.content)
         #img.save("./static/content.jpg")
-        with open("./content.jpg", "wb") as f:
+        with open("static/content.jpg", "wb") as f:
             f.write(message_content.content)
 
         line_bot_api.reply_message(
