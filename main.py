@@ -59,10 +59,10 @@ def handle_image_message(event):
         """
         transfer process
         """
-        out_url = "static/content.jpg"
+        out_url = "static/style.jpg"
         
-        #os.remove("static/content.jpg")
-        os.remove(Path("static/style.jpg").absolute())
+        os.remove(Path("static/content.jpg").absolute())
+        #os.remove(Path("static/style.jpg").absolute())
         line_bot_api.reply_message(
             event.reply_token,
             ImageSendMessage(f"https://genius-guy-bot.herokuapp.com/{out_url}", f"https://genius-guy-bot.herokuapp.com/{out_url}")
