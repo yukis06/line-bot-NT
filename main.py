@@ -50,16 +50,18 @@ def handle_message(event):
 @handler.add(MessageEvent, message=ImageMessage)
 def handle_image_message(event):
     message_content = line_bot_api.get_message_content(event.message.id)
-    if os.path.exists("./static/content.jpg"):
-        img = Image.open(message_content.content)
-        img.save("./static/style.jpg")
+    if os.path.exists("./content.jpg"):
+        #img = Image.open(message_content.content)
+        #img.save("./static/style.jpg")
+        with open("./style.jpg", "wb") as f:
+            f.write(message_content.content)
         """
         transfer process
         """
-        out_url = "./static/content.jpg"
+        out_url = "./content.jpg"
         
         #os.remove("./static/content.jpg")
-        os.remove("./static/style.jpg")
+        os.remove("./style.jpg")
 
         line_bot_api.reply_message(
             event.reply_token,
@@ -67,8 +69,11 @@ def handle_image_message(event):
             )
 
     else:
-        img = Image.open(message_content.content)
-        img.save("./static/content.jpg")
+        #img = Image.open(message_content.content)
+        #img.save("./static/content.jpg")
+        with open("./content.jpg", "wb") as f:
+            f.write(message_content.content)
+
         line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(text="スタイル画像をアップしてね")
