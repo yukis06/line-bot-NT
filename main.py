@@ -1,7 +1,6 @@
 # based on a sample code in https://github.com/line/line-bot-sdk-python
 
 import os
-from PIL import Image
 from dotenv import load_dotenv
 
 from flask import Flask, request, abort
@@ -58,14 +57,14 @@ def handle_image_message(event):
         """
         transfer process
         """
-        out_url = "./content.jpg"
+        out_url = "content.jpg"
         
-        #os.remove("./static/content.jpg")
+        #os.remove("./content.jpg")
         os.remove("./style.jpg")
 
         line_bot_api.reply_message(
             event.reply_token,
-            ImageSendMessage(out_url, out_url)
+            ImageSendMessage("https://genius-guy-bot.herokuapp.com/"+out_url, "https://genius-guy-bot.herokuapp.com/"+out_url)
             )
 
     else:
