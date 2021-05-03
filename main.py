@@ -2,6 +2,7 @@
 
 import os
 from dotenv import load_dotenv
+from pathlib import Path
 
 from flask import Flask, request, abort
 
@@ -49,29 +50,31 @@ def handle_message(event):
 @handler.add(MessageEvent, message=ImageMessage)
 def handle_image_message(event):
     message_content = line_bot_api.get_message_content(event.message.id)
-    if os.path.exists("static/content.jpg"):
+    if os.path.exists(Path("static/content.jpg").absolute()):
         #img = Image.open(message_content.content)
         #img.save("./static/style.jpg")
-        with open("static/style.jpg", "wb") as f:
-            f.write(message_content.content)
+        with open(Path("static/style.jpg").absolute(), "wb") as f:
+            for chunk in message_content.iter_content():
+                f.write(chunk)
         """
         transfer process
         """
         out_url = "static/content.jpg"
         
         #os.remove("static/content.jpg")
-        os.remove("static/style.jpg")
-
+        os.remove(Path("static/style.jpg").absolute())
+        app.logger.info(Path("https://genius-guy-bot.herokuapp.com/{main_image_path}").absolute())
         line_bot_api.reply_message(
             event.reply_token,
-            ImageSendMessage("https://genius-guy-bot.herokuapp.com/{out_url}", "https://genius-guy-bot.herokuapp.com/{out_url}")
+            ImageSendMessage(Path("https://genius-guy-bot.herokuapp.com/{out_url}").absolute(), Path("https://genius-guy-bot.herokuapp.com/{out_url}").absolute())
             )
 
     else:
         #img = Image.open(message_content.content)
         #img.save("./static/content.jpg")
-        with open("static/content.jpg", "wb") as f:
-            f.write(message_content.content)
+        with open(Path("static/content.jpg").absolute(), "wb") as f:
+            for chunk in message_content.iter_content():
+                f.write(chunk)
 
         line_bot_api.reply_message(
             event.reply_token,
