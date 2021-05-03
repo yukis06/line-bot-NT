@@ -45,14 +45,12 @@ def callback():
 def handle_message(event):
     line_bot_api.reply_message(
         event.reply_token,
-        TextSendMessage(text="元画像をアップしてね"))
+        TextSendMessage(text="元画像をアップしてね!"))
 
 @handler.add(MessageEvent, message=ImageMessage)
 def handle_image_message(event):
     message_content = line_bot_api.get_message_content(event.message.id)
     if os.path.exists(Path("static/content.jpg").absolute()):
-        #img = Image.open(message_content.content)
-        #img.save("./static/style.jpg")
         with open(Path("static/style.jpg").absolute(), "wb") as f:
             for chunk in message_content.iter_content():
                 f.write(chunk)
@@ -69,16 +67,13 @@ def handle_image_message(event):
             )
 
     else:
-        app.logger.info(Path("./").absolute())
-        #img = Image.open(message_content.content)
-        #img.save("./static/content.jpg")
         with open(Path("static/content.jpg").absolute(), "wb") as f:
             for chunk in message_content.iter_content():
                 f.write(chunk)
 
         line_bot_api.reply_message(
             event.reply_token,
-            TextSendMessage(text="スタイル画像をアップしてね")
+            TextSendMessage(text="スタイル画像をアップしてね!")
             )
 
 if __name__ == "__main__":
