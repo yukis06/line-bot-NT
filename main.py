@@ -1,6 +1,7 @@
 # based on a sample code in https://github.com/line/line-bot-sdk-python
 
 import os
+import cv2
 from dotenv import load_dotenv
 
 from flask import Flask, request, abort
@@ -50,9 +51,7 @@ def handle_message(event):
 def handle_image_message(event):
     message_content = line_bot_api.get_message_content(event.message.id)
     if os.path.exists("./static/content.jpg"):
-        with open("./static/style.jpg", "wb") as f:
-            f.write(message_content.content)
-
+        cv2.imwrite("./static/style.jpg", message_content.content)
         """
         transfer process
         """
@@ -67,9 +66,7 @@ def handle_image_message(event):
             )
 
     else:
-        with open("./static/content.jpg", "wb") as f:
-            f.write(message_content.content)
-        
+        cv2.imwrite("./static/content.jpg", message_content.content)
         line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(text="スタイル画像をアップしてね")
