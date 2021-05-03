@@ -66,7 +66,7 @@ def handle_image_message(event):
         app.logger.info(Path("https://genius-guy-bot.herokuapp.com/{out_url}").absolute())
         line_bot_api.reply_message(
             event.reply_token,
-            ImageSendMessage(Path("https://genius-guy-bot.herokuapp.com/{out_url}").absolute(), Path("https://genius-guy-bot.herokuapp.com/{out_url}").absolute())
+            ImageSendMessage("https://genius-guy-bot.herokuapp.com/{out_url}", "https://genius-guy-bot.herokuapp.com/{out_url}")
             )
 
     else:
