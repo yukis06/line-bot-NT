@@ -67,7 +67,7 @@ def handle_image_message(event):
             )
 
     else:
-        with open("static/content.jpg", "wb") as f:
+        with open("./static/content.jpg", "wb") as f:
             f.write(message_content.content)
         
         line_bot_api.reply_message(
