@@ -56,7 +56,7 @@ def handle_image_message(event):
                 f.write(chunk)
 
         style_img = transfer.image_loader("static/style.jpg")
-        content_img = transfer.image_loader("static/content.jp")
+        content_img = transfer.image_loader("static/content.jpg")
 
         app.logger.info("content image size is %s", content_img.shape)
         app.logger.info("style image size is %s", style_img.shape)
