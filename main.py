@@ -65,9 +65,7 @@ def handle_image_message(event):
         os.remove("static/content.jpg")
         os.remove("static/style.jpg")
 
-        out_img = transfer.transfer(style_img, content_img)
-        with open("static/output.jpg", "wb") as f:
-            f.write(out_img)
+        transfer.transfer(style_img, content_img)
 
         out_url = "static/output.jpg"
         

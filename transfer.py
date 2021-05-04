@@ -10,6 +10,7 @@ import matplotlib.pyplot as plt
 
 import torchvision.transforms as transforms
 import torchvision.models as models
+from torchvision.utils import save_image
 
 import copy
 import os
@@ -221,10 +222,9 @@ def transfer(style_img, content_img):
     assert style_img.size() == content_img.size(), "we need to import style and content images of the same size"
 
     input_img = content_img.clone()
-    out_img = run_style_transfer(cnn, cnn_normalization_mean, cnn_normalization_std,
+    out = run_style_transfer(cnn, cnn_normalization_mean, cnn_normalization_std,
                             content_img, style_img, input_img)
-
-    return out_img
+    save_image(tensor=out, fp="static/output.jpg")
 
 if __name__ == "__main__":
 
@@ -242,4 +242,3 @@ if __name__ == "__main__":
     
     plt.figure()
     imshow(output, title='Content Image')
-    plt.savefig("test.jpg")
