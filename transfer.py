@@ -216,9 +216,7 @@ def run_style_transfer(cnn, normalization_mean, normalization_std,
 
     return input_img
 
-def transfer(style_path, content_path):
-    style_img = image_loader(style_path)
-    content_img = image_loader(content_path)
+def transfer(style_img, content_img):
 
     assert style_img.size() == content_img.size(), "we need to import style and content images of the same size"
 

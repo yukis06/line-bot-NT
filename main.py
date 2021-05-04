@@ -55,7 +55,18 @@ def handle_image_message(event):
             for chunk in message_content.iter_content():
                 f.write(chunk)
 
-        out_img = transfer.transfer("static/style.jpg", "static/content.jpg")
+        style_img = transfer.image_loader("static/style.jpg")
+        content_img = transfer.image_loader("static/contetn.jp")
+
+        app.logger.info("content image size is %s", content_img.shape)
+        app.logger.info("style image size is %s", style_img.shape)
+
+
+        # remove files
+        os.remove("static/content.jpg")
+        os.remove("static/style.jpg")
+
+        out_img = transfer.transfer(style_img, content_img)
         with open("static/output.jpg", "wb") as f:
             f.write(out_img)
 
@@ -69,9 +80,7 @@ def handle_image_message(event):
                 )
             )
 
-        # remove files
-        os.remove("static/content.jpg")
-        os.remove("static/style.jpg")
+
 
     else:
         with open("static/content.jpg", "wb") as f:
