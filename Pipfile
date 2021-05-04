@@ -11,6 +11,8 @@ line-bot-sdk = "*"
 python-dotenv = "*"
 pillow = "*"
 matplotlib = "*"
+torch = "*"
+torchvision = "*"
 
 [requires]
 python_version = "3.8"

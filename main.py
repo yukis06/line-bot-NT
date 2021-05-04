@@ -2,7 +2,7 @@
 
 import os
 from dotenv import load_dotenv
-from pathlib import Path
+load_dotenv()
 
 from flask import Flask, request, abort
 
@@ -10,11 +10,10 @@ from linebot import LineBotApi, WebhookHandler
 from linebot.exceptions import InvalidSignatureError
 from linebot.models import MessageEvent, TextMessage, TextSendMessage, ImageMessage, ImageSendMessage
 
+import transfer
+
 app = Flask(__name__)
 
-switch = 1
-
-load_dotenv()
 CHANNEL_ACCESS_TOKEN = os.environ["CHANNEL_ACCESS_TOKEN"]
 CHANNEL_SECRET = os.environ["CHANNEL_SECRET"]
 
@@ -50,17 +49,18 @@ def handle_message(event):
 @handler.add(MessageEvent, message=ImageMessage)
 def handle_image_message(event):
     message_content = line_bot_api.get_message_content(event.message.id)
+    
     if os.path.exists("static/content.jpg"):
         with open("static/style.jpg", "wb") as f:
             for chunk in message_content.iter_content():
                 f.write(chunk)
-        """
-        transfer process
-        """
-        out_url = "static/style.jpg"
+
+        out_img = transfer.transfer("static/style.jpg", "static/content.jpg")
+        with open("static/output.jpg", "wb") as f:
+            f.write(out_img)
+
+        out_url = "static/output.jpg"
         
-        os.remove("static/content.jpg")
-        #os.remove("static/style.jpg")
         line_bot_api.reply_message(
             event.reply_token,
             ImageSendMessage(
@@ -68,6 +68,10 @@ def handle_image_message(event):
                 preview_image_url=f"https://genius-guy-bot.herokuapp.com/{out_url}"
                 )
             )
+
+        # remove files
+        os.remove("static/content.jpg")
+        os.remove("static/style.jpg")
 
     else:
         with open("static/content.jpg", "wb") as f:
