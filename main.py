@@ -58,8 +58,8 @@ def handle_image_message(event):
         style_img = transfer.image_loader("static/style.jpg")
         content_img = transfer.image_loader("static/content.jpg")
 
-        app.logger.info("content image size is %s", content_img.shape)
-        app.logger.info("style image size is %s", style_img.shape)
+        print(f"content image size is {content_img.shape}")
+        print(f"style image size is {style_img.shape}")
 
         # remove files
         os.remove("static/content.jpg")
